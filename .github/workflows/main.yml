@@ -1,0 +1,22 @@
+name: Run Tests
+
+on:
+  push:
+    branches: 
+      -main
+
+jobs:
+  test:
+    runs on: ubuntu-latest
+
+    steps:
+      -name: Checkout code
+       uses: actions/checkout@v2
+
+      -name: Run tests with AWS codeBuild
+       env:
+       AWS_REGION: us east-1
+       AWS_ACCESS_KEY_ID: ${{secret.AWS_ACCESS_KEY_ID}}
+       AWS_SECRET_ACCESS_KEY: ${{secret.AWS_SECRET_ACCESS_KEY}}
+       run:
+       aws codebuild start-build --project-name Pruebas_Automatizadas --enviranment-variables-override "name =  MODE_ENV, VaL"
